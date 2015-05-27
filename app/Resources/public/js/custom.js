@@ -5,7 +5,7 @@ $(function () {
 
     // @todo what if data gets out of sync?
     $.each( data, function( key, value ) {
-        date.push( value.date );
+        date.push( value.year );
         count.push( value.count );
     });
 

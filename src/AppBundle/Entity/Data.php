@@ -133,8 +133,8 @@ class Data  implements JsonSerializable
     {
         return array(
             'firstName'  => $this->getUser()->getFirstName(),
-            'date'  => $this->getDate(),
-            'count' => $this->getCount()
+            'year'       => (int) date( 'Y', $this->getDate() ),
+            'count'      => $this->getCount()
         );
     }
 }
