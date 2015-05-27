@@ -1,4 +1,14 @@
-$(function () { 
+$(function () {
+
+    var date  = [];
+    var count = [];
+
+    // @todo what if data gets out of sync?
+    $.each( data, function( key, value ) {
+        date.push( value.date );
+        count.push( value.count );
+    });
+
     $( '#container' ).highcharts({
         chart: {
             type: 'line'
@@ -7,7 +17,7 @@ $(function () {
             text: 'Occurrences of the word... Gareth'
         },
         xAxis: {
-            categories: ['2010', '2011', '2012', '2013', '2014', '2015']
+            categories: date
         },
         yAxis: {
             title: {
@@ -15,8 +25,8 @@ $(function () {
             }
         },
         series: [{
-            name: 'Gareth',
-            data: [50, 15, 65, 10, 20, 5]
+            name: data[0].firstName,
+            data: count
         }]
     });
 });

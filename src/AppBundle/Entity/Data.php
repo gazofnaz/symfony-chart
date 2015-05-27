@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 /**
  * Data
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Data
+class Data  implements JsonSerializable
 {
     /**
      * @var integer
@@ -121,5 +122,19 @@ class Data
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * PHP 5.4 method to allow json_encode to be called on a Data entity
+     *
+     * @return array|mixed
+     */
+    public function jsonSerialize()
+    {
+        return array(
+            'firstName'  => $this->getUser()->getFirstName(),
+            'date'  => $this->getDate(),
+            'count' => $this->getCount()
+        );
     }
 }
