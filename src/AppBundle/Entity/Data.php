@@ -37,6 +37,13 @@ class Data  implements JsonSerializable
     private $count;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="url", type="string", length=255)
+     */
+    private $url;
+
+    /**
      *
      * Each data object references a single user
      *
@@ -76,6 +83,29 @@ class Data  implements JsonSerializable
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     * @return Data
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 
     /**

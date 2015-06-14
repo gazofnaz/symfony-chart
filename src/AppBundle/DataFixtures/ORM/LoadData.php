@@ -26,6 +26,7 @@ class LoadData implements FixtureInterface
             $data->setCount( rand( 1, 100 ) );
             $data->setDate( mktime(0, 0, 0, 12, 31, $year) );
             $data->setUser( $user );
+            $data->setUrl( "http://google.com/$key" );
 
             $manager->persist( $user );
             $manager->persist( $data );
