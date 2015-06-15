@@ -8,6 +8,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * Class GuardianFetchCommand
+ * @package AppBundle\Command
+ */
 class GuardianFetchCommand extends ContainerAwareCommand
 {
     protected function configure(){
@@ -33,8 +37,11 @@ class GuardianFetchCommand extends ContainerAwareCommand
     }
 
     protected function execute( InputInterface $input, OutputInterface $output ){
-
-        $output->writeln( 'Do something' );
+        $container = $this->getContainer();
+        $apiUrl = $container->getParameter( 'guardian_api.url' );
+        $apiKey = $container->getParameter( 'guardian_api.key' );
+        $output->writeln( $apiUrl );
+        $output->writeln( $apiKey );
     }
 
 }
