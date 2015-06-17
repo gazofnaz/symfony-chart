@@ -2,6 +2,9 @@
 
 namespace AppBundle\Command;
 
+use Guzzle\Http\Exception\RequestException;
+use Guzzle\Service\Client;
+use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -37,11 +40,49 @@ class GuardianFetchCommand extends ContainerAwareCommand
     }
 
     protected function execute( InputInterface $input, OutputInterface $output ){
+
         $container = $this->getContainer();
+        /** @var $logger LoggerInterface */
+        $logger = $container->get('logger');
+
         $apiUrl = $container->getParameter( 'guardian_api.url' );
+        $apiSearchPage = $container->getParameter( 'guardian_api.search_page' );
         $apiKey = $container->getParameter( 'guardian_api.key' );
-        $output->writeln( $apiUrl );
-        $output->writeln( $apiKey );
+
+        $apiQueryFieldApiKey = $container->getParameter( 'guardian_api.query_field.api_key' );
+        $apiQueryFieldSearch = $container->getParameter( 'guardian_api.query_field.search' );
+
+        $headers = array();
+
+        // @todo buildQuery method
+        $query = array(
+            'query' =>
+                array(
+                    $apiQueryFieldApiKey => $apiKey,
+                    $apiQueryFieldSearch => 'gareth'
+                )
+        );
+
+        $client = new Client( $apiUrl );
+        $request = $client->get( $apiSearchPage, $headers,  $query );
+
+        // @todo getResponse method
+        try{
+            $response = $request->send();
+            /** @var \Guzzle\Http\EntityBody $body */
+            $body = $response->getBody();
+            // @todo find out how magic method is used
+            $output->writeln( $body->__toString() );
+        }
+        catch( RequestException $e ){
+            $output->writeln( $e->getMessage() );
+            $logger->error( $e->getTraceAsString() );
+        }
+        catch( \Exception $e ){
+            $output->writeln( "Unexpected exception: " . $e->getMessage() );
+            $logger->error( $e->getTraceAsString() );
+        }
+
     }
 
 }
