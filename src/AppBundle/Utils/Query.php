@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Utils;
 
+use AppBundle\Entity\User;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +21,13 @@ class Query
         $this->logger = $logger;
     }
 
-    public function buildQuery(){
+    public function buildQuery( User $user ){
+
+        $query = array(
+            'query' => array()
+        );
+
+        return $query;
     }
 
     public function getResponse(){

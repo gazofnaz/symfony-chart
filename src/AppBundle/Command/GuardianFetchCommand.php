@@ -43,11 +43,12 @@ class GuardianFetchCommand extends ContainerAwareCommand
         $queryService = $container->get( 'app.query' );
         $storageService = $container->get( 'app.storage' );
 
+        // getUser
         // buildQuery
         // getResponse
         // loop appropriately
         // store/process responses
-        // report status (changelog table)
+        // report status (how far we got, last date executed, changelog table)
 
     }
 
