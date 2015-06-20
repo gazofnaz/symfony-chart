@@ -2,14 +2,7 @@ parameters:
     guardian_api.url: http://content.guardianapis.com/
     guardian_api.search_page: search
     guardian_api.key: q5kmfff8753v6q2kfq7m3rgu
-    guardian_api.query_field.api_key: api-key
-    guardian_api.query_field.order_by: order-by
-    guardian_api.query_field.search: q
-    guardian_api.query_field.api_key: key
-    guardian_api.query_field.start_date: from-date
-    guardian_api.query_field.end_date: to-date
-    guardian_api.query_field.page_number: page
-    guardian_api.query_field.page_size: page-size
+    guardian_api.order_by: new
 
 services:
 
