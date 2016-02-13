@@ -6,7 +6,7 @@ use AppBundle\Exception\EmptyNameException;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Query
+class BuildQuery
 {
     /**
      * These are the key names as required by the api

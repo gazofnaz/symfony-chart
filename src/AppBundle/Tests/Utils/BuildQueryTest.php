@@ -2,17 +2,17 @@
 
 namespace AppBundle\Tests\Utils;
 
-use AppBundle\Utils\Query;
+use AppBundle\Utils\BuildQuery;
 
 /**
  * More of a suite of functional tests than unit tests
  *
  * BDD is not practical because this code is never rendered
  *
- * Class QueryTest
+ * Class BuildQueryTest
  * @package AppBundle\Tests\Utils
  */
-class QueryTest extends \PHPUnit_Framework_TestCase
+class BuildQueryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var  \PHPUnit_Framework_MockObject_MockObject $container */
     private $container;
@@ -45,7 +45,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testBuildQueryForUserKeysExist()
     {
 
-        $query = new Query( $this->container,  $this->logger );
+        $query = new BuildQuery( $this->container,  $this->logger );
 
         $this->user
             ->expects( $this->any() )
@@ -75,7 +75,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ->method( 'getFirstName' )
             ->will( $this->returnValue( '' ) );
 
-        $query = new Query( $this->container,  $this->logger );
+        $query = new BuildQuery( $this->container,  $this->logger );
 
         $this->setExpectedException( '\AppBundle\Exception\EmptyNameException', 'The First Name cannot be empty' );
 
@@ -93,7 +93,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ->method( 'getFirstName' )
             ->will( $this->returnValue( null ) );
 
-        $query = new Query( $this->container,  $this->logger );
+        $query = new BuildQuery( $this->container,  $this->logger );
 
         $this->setExpectedException( '\AppBundle\Exception\EmptyNameException', 'The First Name cannot be empty' );
 

@@ -7,8 +7,14 @@ parameters:
 
 services:
 
-    app.query:
-        class: AppBundle\Utils\Query
+    app.build_query:
+        class: AppBundle\Utils\BuildQuery
+        arguments:
+            - @service_container
+            - @logger
+
+    app.run_query:
+        class: AppBundle\Utils\RunQuery
         arguments:
             - @service_container
             - @logger

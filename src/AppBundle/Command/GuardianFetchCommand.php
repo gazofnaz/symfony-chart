@@ -43,8 +43,8 @@ class GuardianFetchCommand extends ContainerAwareCommand
         /** @var $registry \Doctrine\ORM\EntityManager */
         $entityManager = $container->get( 'doctrine' );
 
-        /** @var \AppBundle\Utils\Query $queryService */
-        $queryService = $container->get( 'app.query' );
+        /** @var \AppBundle\Utils\BuildQuery $queryService */
+        $queryService = $container->get( 'app.build_query' );
 
         /** @var \AppBundle\Utils\Storage $storageService */
         $storageService = $container->get( 'app.storage' );
