@@ -42,12 +42,17 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      *     )
      * )
      */
-    public function testBuildQueryKeysExist()
+    public function testBuildQueryForUserKeysExist()
     {
 
         $query = new Query( $this->container,  $this->logger );
 
-        $resultArray = $query->buildQuery( $this->user );
+        $this->user
+            ->expects( $this->any() )
+            ->method( 'getFirstName' )
+            ->will( $this->returnValue( 'RandomFirstName' ) );
+
+        $resultArray = $query->buildQueryForUser( $this->user );
 
         $this->assertArrayHasKey( 'query'   , $resultArray );
         $this->assertInternalType( 'array'  , $resultArray['query'], 'the query subset is not an array' );
@@ -60,42 +65,39 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * After we've confirmed the keys exist, we check the values of the keys.
-     *
-     * We don't want to check against our stored parameters because we might accidentally
-     * change one resulting in an application failure.
-     *
-     * @todo this isn't actually testing anything, because everything is being mocked... need to get real data from the container
-     *
-     * @depends testBuildQueryKeysExist
+     * Test to assert that the username is not set to an empty string
      */
-    public function testBuildQueryKeyValues()
-    {
-        $map = array(
-            array( 'guardian_api.key'     , 'q5kmfff8753v6q2kfq7m3rgu' ),
-            array( 'guardian_api.order_by', 'new' )
-        );
-
-        $this->container->expects( $this->any() )
-                  ->method( 'getParameter' )
-                  ->will( $this->returnValueMap( $map ) );
+    public function testBuildQueryForUserWithEmptyName(){
 
         $this->user
             ->expects( $this->any() )
             ->method( 'getFirstName' )
-            ->will($this->returnValue( 'Gareth' ));
+            ->will( $this->returnValue( '' ) );
 
         $query = new Query( $this->container,  $this->logger );
 
-        $resultArray = $query->buildQuery( $this->user );
+        $this->setExpectedException( '\AppBundle\Exception\EmptyNameException', 'The First Name cannot be empty' );
 
-        $expectedSubset = array(
-            'api-key'       => $this->container->getParameter( 'guardian_api.key' ),
-            'q'             => $this->user->getFirstName(),
-            'order-by'      => $this->container->getParameter( 'guardian_api.order_by' )
-            );
-
-        $this->assertArraySubset( $resultArray['query'],  $expectedSubset );
+        $resultArray = $query->buildQueryForUser( $this->user );
 
     }
+
+    /**
+     * Test to assert that the username is not set to null
+     */
+    public function testBuildQueryForUserWithNullName(){
+
+        $this->user
+            ->expects( $this->any() )
+            ->method( 'getFirstName' )
+            ->will( $this->returnValue( null ) );
+
+        $query = new Query( $this->container,  $this->logger );
+
+        $this->setExpectedException( '\AppBundle\Exception\EmptyNameException', 'The First Name cannot be empty' );
+
+        $resultArray = $query->buildQueryForUser( $this->user );
+
+    }
+
 }

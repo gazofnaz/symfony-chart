@@ -44,7 +44,7 @@ class GuardianFetchCommand extends ContainerAwareCommand
         $storageService = $container->get( 'app.storage' );
 
         // getUser
-        // buildQuery
+        // buildQueryForUser
         // getResponse
         // loop appropriately
         // store/process responses

@@ -2,6 +2,7 @@
 namespace AppBundle\Utils;
 
 use AppBundle\Entity\User;
+use AppBundle\Exception\EmptyNameException;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -36,14 +37,18 @@ class Query
     /**
      * @param User $user
      * @return array
+     * @throws EmptyNameException
      */
-    public function buildQuery( User $user ){
+    public function buildQueryForUser( User $user ){
 
         /** @throws \InvalidArgumentException */
         $key = $this->container->getParameter( 'guardian_api.key' );
 
-        // @todo throw exception for empty name
         $firstName = $user->getFirstName();
+
+        if( $firstName == null | $firstName == '' ){
+            throw new EmptyNameException( 'The First Name cannot be empty' );
+        }
 
         /** @throws \InvalidArgumentException */
         $orderBy = $this->container->getParameter( 'guardian_api.order_by' );
