@@ -2,6 +2,7 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Exception\UserNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -50,14 +51,18 @@ class GuardianFetchCommand extends ContainerAwareCommand
         $storageService = $container->get( 'app.storage' );
 
         $username = $input->getArgument( 'username' );
-
         // getUser
         $user = $entityManager->getRepository( 'AppBundle:User' )->findOneByUsername( $username );
+
+        if( $user == null ){
+            throw new UserNotFoundException( "User with username: $username could not be found in the database" );
+        }
 
         // buildQueryForUser
         $query = $queryService->buildQueryForUser( $user );
 
-        dump( $query );
+        $output->writeln( 'Starting fetch for user: ' . $query['query']['q'] );
+
         // getResponse
         // loop appropriately
         // store/process responses
