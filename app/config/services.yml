@@ -1,4 +1,5 @@
 parameters:
+    # Example: http://content.guardianapis.com/search?q=gareth&from-date=2014-01-01&api-key=q5kmfff8753v6q2kfq7m3rgu
     guardian_api.url: http://content.guardianapis.com/
     guardian_api.search_page: search
     guardian_api.key: q5kmfff8753v6q2kfq7m3rgu

@@ -57,6 +57,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey( 'query'   , $resultArray );
         $this->assertInternalType( 'array'  , $resultArray['query'], 'the query subset is not an array' );
 
+        $this->assertArrayHasKey( 'api-url' , $resultArray['query'] );
         $this->assertArrayHasKey( 'api-key' , $resultArray['query'] );
         $this->assertArrayHasKey( 'q'       , $resultArray['query'] );
         $this->assertArrayHasKey( 'order-by', $resultArray['query'] );

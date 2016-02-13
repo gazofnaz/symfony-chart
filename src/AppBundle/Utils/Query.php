@@ -9,9 +9,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Query
 {
     /**
-     * As per Symfony best practices, parameters which will almost never
-     * change should be class constants and not yml parameters
+     * These are the key names as required by the api
      */
+    const API_URL       = 'api-url';
     const API_KEY       = 'api-key';
     const ORDER_BY      = 'order-by';
     const SEARCH_QUERY  = 'q';
@@ -43,6 +43,7 @@ class Query
 
         /** @throws \InvalidArgumentException */
         $key = $this->container->getParameter( 'guardian_api.key' );
+        $apiUrl = $this->container->getParameter( 'guardian_api.url' );
 
         $firstName = $user->getFirstName();
 
@@ -55,6 +56,7 @@ class Query
 
         $query = array(
             'query' => array(
+                self::API_URL       => $apiUrl,
                 self::API_KEY       => $key,
                 self::SEARCH_QUERY  => $firstName,
                 self::ORDER_BY      => $orderBy

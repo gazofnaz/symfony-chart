@@ -19,9 +19,9 @@ class GuardianFetchCommand extends ContainerAwareCommand
         $this->setName( 'app:guardian:fetch' )
              ->setDescription( 'Perform a fetch of the Guardian API. Searches for the first name of the given userId.' )
              ->addArgument(
-                 'userId',
+                 'username',
                  InputArgument::REQUIRED,
-                 'The Id of the user you wish to fetch data for.' )
+                 'The username (login) of the user you wish to fetch data for.' )
              ->addOption(
                  'startDate',
                  'sd',
@@ -39,12 +39,25 @@ class GuardianFetchCommand extends ContainerAwareCommand
     protected function execute( InputInterface $input, OutputInterface $output ){
 
         $container = $this->getContainer();
+
+        /** @var $registry \Doctrine\ORM\EntityManager */
+        $entityManager = $container->get( 'doctrine' );
+
         /** @var \AppBundle\Utils\Query $queryService */
         $queryService = $container->get( 'app.query' );
+
+        /** @var \AppBundle\Utils\Storage $storageService */
         $storageService = $container->get( 'app.storage' );
 
+        $username = $input->getArgument( 'username' );
+
         // getUser
+        $user = $entityManager->getRepository( 'AppBundle:User' )->findOneByUsername( $username );
+
         // buildQueryForUser
+        $query = $queryService->buildQueryForUser( $user );
+
+        dump( $query );
         // getResponse
         // loop appropriately
         // store/process responses
