@@ -4,16 +4,17 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * User
  *
  * @todo naming strategy is not working for column names
  * @todo password hashing
- * @todo force unique usernames
  *
  * @ORM\Table()
  * @ORM\Entity
+ * @UniqueEntity("username")
  */
 class User
 {
@@ -29,7 +30,7 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
 
