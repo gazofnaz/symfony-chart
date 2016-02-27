@@ -3,6 +3,7 @@ namespace AppBundle\Utils;
 
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class RunQuery
 {
@@ -21,7 +22,8 @@ class RunQuery
         $this->logger = $logger;
     }
 
-    public function getResponse(){
-
+    public function getResponse( ParameterBag $queryParameters ){
+        $query = '';
+        return $query;
     }
 }

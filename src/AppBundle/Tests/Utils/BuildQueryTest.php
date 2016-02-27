@@ -32,14 +32,13 @@ class BuildQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that the multidimensional query array has the expected keys
+     * Tests that the ParameterBag array has the expected keys, and is the correct class type
      *
      * array(
-     *     'query' => array(
-     *         'q'        => 'firstName',
-     *         'key'      => 'xxx' ,
-     *         'order-by' => 'new' ,
-     *     )
+     *    q'        => 'firstName',
+     *    key'      => 'xxx' ,
+     *    order-by' => 'new' ,
+     *
      * )
      */
     public function testBuildQueryForUserKeysExist()
@@ -52,16 +51,14 @@ class BuildQueryTest extends \PHPUnit_Framework_TestCase
             ->method( 'getFirstName' )
             ->will( $this->returnValue( 'RandomFirstName' ) );
 
-        $resultArray = $query->buildQueryForUser( $this->user );
+        $queryParameters = $query->buildQueryForUser( $this->user );
 
-        $this->assertArrayHasKey( 'query'   , $resultArray );
-        $this->assertInternalType( 'array'  , $resultArray['query'], 'the query subset is not an array' );
+        $this->assertInstanceOf( "\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag", $queryParameters );
 
-        $this->assertArrayHasKey( 'api-url' , $resultArray['query'] );
-        $this->assertArrayHasKey( 'api-key' , $resultArray['query'] );
-        $this->assertArrayHasKey( 'q'       , $resultArray['query'] );
-        $this->assertArrayHasKey( 'order-by', $resultArray['query'] );
-
+        $this->assertTrue( $queryParameters->has( 'api-url' ), 'Parameter with key api-url does not exist' );
+        $this->assertTrue( $queryParameters->has( 'api-key' ), 'Parameter with key api-key does not exist' );
+        $this->assertTrue( $queryParameters->has( 'q' ), 'Parameter with key q does not exist' );
+        $this->assertTrue( $queryParameters->has( 'order-by' ), 'Parameter with key order-by does not exist' );
 
     }
 

@@ -44,8 +44,11 @@ class GuardianFetchCommand extends ContainerAwareCommand
         /** @var $registry \Doctrine\ORM\EntityManager */
         $entityManager = $container->get( 'doctrine' );
 
-        /** @var \AppBundle\Utils\BuildQuery $queryService */
-        $queryService = $container->get( 'app.build_query' );
+        /** @var \AppBundle\Utils\BuildQuery $buildQueryService */
+        $buildQueryService = $container->get( 'app.build_query' );
+
+        /** @var \AppBundle\Utils\RunQuery $runQueryService */
+        $runQueryService = $container->get( 'app.run_query' );
 
         /** @var \AppBundle\Utils\Storage $storageService */
         $storageService = $container->get( 'app.storage' );
@@ -59,11 +62,12 @@ class GuardianFetchCommand extends ContainerAwareCommand
         }
 
         // buildQueryForUser
-        $query = $queryService->buildQueryForUser( $user );
-
-        $output->writeln( 'Starting fetch for user: ' . $query['query']['q'] );
+        $queryParameters = $buildQueryService->buildQueryForUser( $user );
+        $output->writeln( 'Starting fetch for user: ' . $queryParameters->get( 'q' ) );
 
         // getResponse
+        $response = $runQueryService->getResponse( $queryParameters );
+        
         // loop appropriately
         // store/process responses
         // report status (how far we got, last date executed, changelog table)

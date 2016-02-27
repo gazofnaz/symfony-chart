@@ -5,6 +5,7 @@ use AppBundle\Entity\User;
 use AppBundle\Exception\EmptyNameException;
 use Monolog\Logger;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 
 class BuildQuery
 {
@@ -36,7 +37,7 @@ class BuildQuery
 
     /**
      * @param User $user
-     * @return array
+     * @return ParameterBag
      * @throws EmptyNameException
      */
     public function buildQueryForUser( User $user ){
@@ -54,8 +55,8 @@ class BuildQuery
         /** @throws \InvalidArgumentException */
         $orderBy = $this->container->getParameter( 'guardian_api.order_by' );
 
-        $query = array(
-            'query' => array(
+        $query = new ParameterBag(
+            array (
                 self::API_URL       => $apiUrl,
                 self::API_KEY       => $key,
                 self::SEARCH_QUERY  => $firstName,
