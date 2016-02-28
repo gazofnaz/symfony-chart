@@ -66,8 +66,13 @@ class GuardianFetchCommand extends ContainerAwareCommand
         $output->writeln( 'Starting fetch for user: ' . $queryParameters->get( 'q' ) );
 
         // getResponse
-        $response = $runQueryService->getResponse( $queryParameters );
-        
+        try{
+            $response = $runQueryService->getResponse( $queryParameters );
+        }
+        catch( \Exception $e ){
+            throw $e;
+        }
+
         // loop appropriately
         // store/process responses
         // report status (how far we got, last date executed, changelog table)

@@ -28,7 +28,7 @@ class BuildQueryTest extends \PHPUnit_Framework_TestCase
         $this->logger = $this->getMockBuilder( '\\Monolog\\Logger' )
                        ->disableOriginalConstructor()
                        ->getMock();
-        $this->user = $this->getMock( '\\AppBundle\\Entity\User' );
+        $this->user = $this->getMock( '\\AppBundle\\Entity\\User' );
     }
 
     /**
@@ -53,7 +53,7 @@ class BuildQueryTest extends \PHPUnit_Framework_TestCase
 
         $queryParameters = $query->buildQueryForUser( $this->user );
 
-        $this->assertInstanceOf( "\Symfony\Component\DependencyInjection\ParameterBag\ParameterBag", $queryParameters );
+        $this->assertInstanceOf( "\\Symfony\\Component\\DependencyInjection\\ParameterBag\\ParameterBag", $queryParameters );
 
         $this->assertTrue( $queryParameters->has( 'api-url' ), 'Parameter with key api-url does not exist' );
         $this->assertTrue( $queryParameters->has( 'api-key' ), 'Parameter with key api-key does not exist' );
@@ -72,11 +72,11 @@ class BuildQueryTest extends \PHPUnit_Framework_TestCase
             ->method( 'getFirstName' )
             ->will( $this->returnValue( '' ) );
 
-        $query = new BuildQuery( $this->container,  $this->logger );
+        $buildQueryService = new BuildQuery( $this->container,  $this->logger );
 
         $this->setExpectedException( '\AppBundle\Exception\EmptyNameException', 'The First Name cannot be empty' );
 
-        $resultArray = $query->buildQueryForUser( $this->user );
+        $resultArray = $buildQueryService->buildQueryForUser( $this->user );
 
     }
 
@@ -90,11 +90,11 @@ class BuildQueryTest extends \PHPUnit_Framework_TestCase
             ->method( 'getFirstName' )
             ->will( $this->returnValue( null ) );
 
-        $query = new BuildQuery( $this->container,  $this->logger );
+        $buildQueryService = new BuildQuery( $this->container,  $this->logger );
 
         $this->setExpectedException( '\AppBundle\Exception\EmptyNameException', 'The First Name cannot be empty' );
 
-        $resultArray = $query->buildQueryForUser( $this->user );
+        $resultArray = $buildQueryService->buildQueryForUser( $this->user );
 
     }
 
